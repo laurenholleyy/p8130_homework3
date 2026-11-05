@@ -1,0 +1,9 @@
+---
+title: "Q8"
+output: github_document
+---
+
+```{r}
+library(tidyverse)
+```
+

@@ -1,0 +1,9 @@
+---
+title: "Q10"
+output: github_document
+---
+
+```{r}
+library(tidyverse)
+```
+
