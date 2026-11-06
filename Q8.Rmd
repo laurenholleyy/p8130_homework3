@@ -7,3 +7,38 @@ output: github_document
 library(tidyverse)
 ```
 
+### Part A
+
+Building Data Frame
+
+```{r}
+data = data.frame(
+  outcome = c(6, 7, 8, 8, 9, 10,
+              8, 9, 10, 10, 11, 12,
+              12, 13, 14, 14, 15, 16),
+  group = factor(rep(c("A", "B", "C"), each = 6))
+)
+```
+
+ANOVA
+
+```{r}
+fit <- aov(outcome ~ group,data=data)
+print(summary(fit))
+groups <- split(data$outcome,data$group)
+n <- lengths(groups); means <- sapply(groups,mean)
+N <- sum(n); k <- length(n)
+ssw <- sum(residuals(fit)^2)
+mse <- ssw/(N-k)
+grand <- mean(data$outcome)
+ssb <- sum(n * (means - grand)^2)
+print(c(MSE = mse, SSB = ssb, SSW = ssw))
+```
+
+### Part B
+
+
+
+### Part C
+
+
