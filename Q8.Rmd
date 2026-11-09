@@ -23,22 +23,36 @@ data = data.frame(
 ANOVA
 
 ```{r}
-fit <- aov(outcome ~ group,data=data)
+fit = aov(outcome ~ group, data = data)
 print(summary(fit))
-groups <- split(data$outcome,data$group)
-n <- lengths(groups); means <- sapply(groups,mean)
-N <- sum(n); k <- length(n)
-ssw <- sum(residuals(fit)^2)
-mse <- ssw/(N-k)
-grand <- mean(data$outcome)
-ssb <- sum(n * (means - grand)^2)
-print(c(MSE = mse, SSB = ssb, SSW = ssw))
+groups = split(data$outcome, data$group)
+n = lengths(groups)
+means = sapply(groups, mean)
+grand = mean(data$outcome)
+ssb = sum(n * (means - grand)^2)
+N = sum(n)
+k = length(n)
+ssw = sum(residuals(fit)^2)
+mse = ssw/(N-k)
+print(c(SSB = ssb, SSW = ssw, MSE = mse))
 ```
 
 ### Part B
 
-
+```{r}
+pairs = combn(k, 2)
+delta = means[pairs[2,]] - means[pairs[1,]]
+names(delta) = c("B-A", "C-A", "C-B")
+se = sqrt(mse*(1/n[pairs[1,]] + 1/n[pairs[2,]]))
+stat = delta/se
+raw = 2*pt(-abs(stat), N - k) 
+adj = p.adjust(raw, method = 'bonferroni')
+print(cbind(delta, stat, raw, adj))
+```
 
 ### Part C
 
-
+```{r}
+tk = TukeyHSD(fit, 'group', conf.level = 0.95)$group
+print(tk[c('B-A','C-A','C-B'), ])
+```
