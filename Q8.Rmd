@@ -3,10 +3,6 @@ title: "Q8"
 output: github_document
 ---
 
-```{r}
-library(tidyverse)
-```
-
 ### Part A
 
 Building Data Frame

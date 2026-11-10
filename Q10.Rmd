@@ -3,12 +3,23 @@ title: "Q10"
 output: github_document
 ---
 
-```{r}
-library(tidyverse)
-```
-
 ### Part A
+
+```{r}
+tab = matrix(c(1, 9, 7, 3), nrow = 2, byrow = TRUE)
+print(chisq.test(tab)$expected)
+fit = fisher.test(tab, alternative = "two.sided")
+cat(sprintf("p = %.6f\n", fit$p.value))
+```
 
 ### Part B
 
-### Part C
+```{r}
+tab2 = matrix(c(30, 4, 12, 14), nrow = 2, byrow = TRUE)
+pA = sum(tab2[1, ]) / 60
+pB = sum(tab2[, 1]) / 60
+print(c(pA = pA, pB = pB, diff = pA - pB))
+print(mcnemar.test(tab2, correct = TRUE))
+print(binom.test(4, 4 + 12, p = 0.5, alternative = "two.sided"))
+```
+
